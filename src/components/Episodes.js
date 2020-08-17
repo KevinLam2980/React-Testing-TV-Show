@@ -1,11 +1,18 @@
 import React from 'react';
 import parse from 'html-react-parser';
+import { useHistory } from 'react-router-dom'
 
 export default function Episodes(props) {
+  const History = useHistory()
+
+  
   return (
     <div className="episodes">
       {props.episodes.map(e => (
-        <div className="episode" key={e.id} data-testid='episodes'>
+        <div onClick={(evt) => {
+          evt.preventDefault()
+          History.push(`/episode/${e.id}`)
+          console.log(e.id)}} className="episode" key={e.id} data-testid='episodes'>
           {e.image && (
             <img className="episode-image" src={e.image.medium} alt={e.name} />
           )}

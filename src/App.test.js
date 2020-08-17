@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from './App'
 import {fetchShow as mockFetchShow} from './api/fetchEpisodes'
@@ -137,7 +137,7 @@ test('Renders episode data after API call finishes', async () => {
 
     //render App
     await render(<App/>)
-    screen.findByText(/Fetching data/i)
+    // screen.findByText(/Fetching data/i)
 
     // Check if show page renders
     screen.findByRole('img', {alt: 'Stranger Things'})

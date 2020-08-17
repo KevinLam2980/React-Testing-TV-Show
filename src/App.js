@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Dropdown from "react-dropdown";
 import parse from "html-react-parser";
+import {BrowserRouter as Router, Route} from 'react-router-dom'
+
 
 import { formatSeasons } from "./utils/formatSeasons";
 import { fetchShow } from './api/fetchEpisodes'
 
 import Episodes from "./components/Episodes";
 import "./styles.css";
+import EpisodePage from "./components/episodePage";
 
 export default function App() {
   const [show, setShow] = useState(null);
@@ -32,18 +34,25 @@ export default function App() {
   }
 
   return (
-    <div className="App">
-      <img className="poster-img" src={show.image.original} alt={show.name} />
-      <h1>{show.name}</h1>
-      {parse(show.summary)}
-      <Dropdown
-        options={Object.keys(seasons)}
-        onChange={handleSelect}
-        value={selectedSeason || "Select a season"}
-        placeholder="Select an option"
-        data-testid='dropdown'
-      />
-      <Episodes episodes={episodes} />
-    </div>
+    <Router>
+      <Route exact path='/'>
+        <div className="App">
+          <img className="poster-img" src={show.image.original} alt={show.name} />
+          <h1>{show.name}</h1>
+          {parse(show.summary)}
+          <Dropdown
+            options={Object.keys(seasons)}
+            onChange={handleSelect}
+            value={selectedSeason || "Select a season"}
+            placeholder="Select an option"
+            data-testid='dropdown'
+          />
+          <Episodes episodes={episodes} />
+        </div>
+      </Route>
+      <Route exact path='/episode/:episodeid'>
+        <EpisodePage episodes={show._embedded.episodes}/>
+      </Route>
+    </Router>
   );
 }
